@@ -17,6 +17,9 @@ module VCAP::CloudController
 
       return false if !new_bits?(buildpack, new_key) && !new_filename?(buildpack, new_filename) && !missing_bits
 
+      ## Pseudocode
+      new_stack = extract_stack_from_buildpack(bits_file_path) || Stack.default.name
+
       # replace blob if new
       if missing_bits || new_bits?(buildpack, new_key)
         buildpack_blobstore.cp_to_blobstore(bits_file_path, new_key)
@@ -32,6 +35,7 @@ module VCAP::CloudController
             key: new_key,
             filename: new_filename,
             sha256_checksum: sha256,
+            stack: new_stack,
           )
         end
       rescue Sequel::Error

@@ -6,12 +6,13 @@ module VCAP::CloudController
 
     define_attributes do
       attribute :name, String
+      attribute :stack, String
       attribute :position, Integer, default: 0
       attribute :enabled, Message::Boolean, default: true
       attribute :locked, Message::Boolean, default: false
     end
 
-    query_parameters :name
+    query_parameters :name, :stack
 
     def initialize(*args)
       super
